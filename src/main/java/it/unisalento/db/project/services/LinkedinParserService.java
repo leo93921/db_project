@@ -32,7 +32,7 @@ public class LinkedinParserService {
         Elements richDescriptions = doc.getElementsByClass("description__text--rich");
         StringBuilder stringBuilder = new StringBuilder();
         for (Element p : richDescriptions.get(0).children()) {
-            stringBuilder.append(p.text());
+            stringBuilder.append(p.text() + "\n");
         }
         parsedItems.put("description", stringBuilder.toString());
 
