@@ -1,15 +1,14 @@
 package it.unisalento.db.project.controllers.rest;
 
-import it.unisalento.db.project.models.dto.GlassdoorJobDetails;
+import it.unisalento.db.project.models.dto.GlassdoorJobDetail;
 import it.unisalento.db.project.models.dto.MonsterJobDetails;
 import it.unisalento.db.project.services.GlassdoorParserService;
 import it.unisalento.db.project.services.LinkedinParserService;
 import it.unisalento.db.project.services.MonsterParserService;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,8 +38,8 @@ public class PublicRestController {
     }
 
     @PostMapping(value = "/glassdoor", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public JSONObject parseGlassdoorLink(@RequestParam("url") String url) throws IOException {
-        return glassdoorParserService.parse(url.replace("\"", ""));
+    public GlassdoorJobDetail parseGlassdoorLink(@RequestBody String url) throws IOException {
+        return glassdoorParserService.parse(url);
     }
 
 }

@@ -1,26 +1,22 @@
 package it.unisalento.db.project.services;
 
-import com.mongodb.util.JSONParseException;
-import it.unisalento.db.project.models.dto.JsonParser;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import it.unisalento.db.project.models.dto.GlassdoorJobDetail;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 @Service
 public class GlassdoorParserService {
 
-	private JsonParser jparser = new JsonParser();
-
-	public JSONObject parse(String url) throws IOException {
+	public GlassdoorJobDetail parse(String url) throws IOException {
 
 		System.out.println(url);
 		Document doc =  Jsoup.connect(url).get();
@@ -32,37 +28,22 @@ public class GlassdoorParserService {
 		Elements jobList = realDoc.getElementsByClass("jl");
 
 		//TODO choose if retrieve by just a job or all jobs
-		jobList.forEach(job -> System.out.println(job.attributes().get("data-id")));
-
-		URL dataUrl = new URL("https://www.glassdoor.com/Job/json/details.htm?jobListingId="
-					+ jobList.get(0).attributes().get("data-id"));
-
-		HttpURLConnection con = (HttpURLConnection) dataUrl.openConnection();
-		con.setRequestMethod("GET");
-		con.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+		/*jobList.forEach(job -> System.out.println(job.attributes().get("data-id")));*/
 
 		//TODO handle exception
-		int status = con.getResponseCode();
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuilder content = new StringBuilder();
-		while ((inputLine = in.readLine()) != null) {
-			content.append(inputLine);
-		}
-		in.close();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 
-		con.disconnect();
+		HttpEntity entity = new HttpEntity(headers);
 
-		try{
-			return jparser.parseToJson(content.toString());
-		}catch(JSONParseException | ParseException ex) {
-			ex.printStackTrace();
-		}
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<GlassdoorJobDetail> response = restTemplate.exchange(
+				"https://www.glassdoor.com/Job/json/details.htm?jobListingId="
+						+ jobList.get(0).attributes().get("data-id"), HttpMethod.GET, entity, GlassdoorJobDetail.class);
 
 		//TODO retrieve usefull data
-		return new JSONObject();
+		return response.getBody();
 	}
 
 }
