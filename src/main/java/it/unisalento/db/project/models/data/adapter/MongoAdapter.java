@@ -31,8 +31,8 @@ public class MongoAdapter implements MongoDataAdapter{
 	public Company getCompany(){
 		if(glassdoorJobDetail != null) return new GlassdoorAdapter(glassdoorJobDetail).getCompany();
 		if(linkedinJobDetail != null) return new LinkedinAdapter(linkedinJobDetail).getCompany();
-		if(monsterJobDetails != null) return null;
-		return null;
+		if(monsterJobDetails != null) return new MonsterAdapter(monsterJobDetails).getCompany();
+		return new Company();
 	}
 
 	@Override
@@ -40,8 +40,10 @@ public class MongoAdapter implements MongoDataAdapter{
 		try{
 			if(glassdoorJobDetail != null) return new GlassdoorAdapter(glassdoorJobDetail).getJob();
 			if(linkedinJobDetail != null) return new LinkedinAdapter(linkedinJobDetail).getJob();
+			if(monsterJobDetails != null) return new MonsterAdapter(monsterJobDetails).getJob();
 		} catch(ParseException ex) {
 			ex.printStackTrace();
+			return new Job();
 		}
 		return null;
 	}
@@ -50,16 +52,16 @@ public class MongoAdapter implements MongoDataAdapter{
 	public Location getLocation(){
 		if(glassdoorJobDetail != null ) return new GlassdoorAdapter(glassdoorJobDetail).getLocation();
 		if(linkedinJobDetail != null) return new LinkedinAdapter(linkedinJobDetail).getLocation();
-
-		return null;
+		if(monsterJobDetails != null) return new MonsterAdapter(monsterJobDetails).getLocation();
+		return new Location();
 	}
 
 	@Override
 	public Platform getPlatform(){
 		if(glassdoorJobDetail != null ) return new GlassdoorAdapter(glassdoorJobDetail).getPlatform();
 		if(linkedinJobDetail != null) return new LinkedinAdapter(linkedinJobDetail).getPlatform();
-
-		return null;
+		if(monsterJobDetails != null) return new MonsterAdapter(monsterJobDetails).getPlatform();
+		return new Platform();
 	}
 
 

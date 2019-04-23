@@ -4,6 +4,8 @@ package it.unisalento.db.project.services;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import it.unisalento.db.project.models.data.adapter.MongoAdapter;
 import it.unisalento.db.project.models.dto.LinkedinJobDetail;
 import org.jsoup.Jsoup;
@@ -76,7 +78,11 @@ public class LinkedinJobsListService extends BaseService{
 
 				mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
-				LinkedinJobDetail linkedinJobDetail = mapper.readValue(map.toString(), LinkedinJobDetail.class);
+				Gson gson = new Gson();
+
+				String json = gson.toJson(map);
+
+				LinkedinJobDetail linkedinJobDetail = mapper.readValue(json, LinkedinJobDetail.class);
 
 				mongoAdapters.add(new MongoAdapter(null, linkedinJobDetail, null));
 

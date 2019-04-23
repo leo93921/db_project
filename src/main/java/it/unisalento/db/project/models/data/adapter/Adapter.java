@@ -122,7 +122,7 @@ public class Adapter implements IAdapter{
 
 		} catch(Exception e) {
 			e.printStackTrace();
-			return null;
+			return "";
 		}
 
 	}

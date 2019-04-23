@@ -23,7 +23,7 @@ class LinkedinAdapter extends Adapter{
 
 	@Override
 	public Company getCompany() {
-		return new Company(linkedinJobDetail.getCompany());
+		return new Company(linkedinJobDetail.getCompany().substring(1));
 	}
 
 	@Override
@@ -65,24 +65,23 @@ class LinkedinAdapter extends Adapter{
 		try{
 			switch(dates[1]){
 				case "days":
-
-					cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[0]));
+					cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[0].substring(1)));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				case "weeks":
-					cal.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(dates[0]));
+					cal.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(dates[0].substring(1)));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				case "month":
-					cal.add(Calendar.MONTH, Integer.parseInt(dates[0]));
+					cal.add(Calendar.MONTH, Integer.parseInt(dates[0].substring(1)));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				case "year":
-					cal.add(Calendar.YEAR, Integer.parseInt(dates[0]));
+					cal.add(Calendar.YEAR, Integer.parseInt(dates[0].substring(1)));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				default:
-					return null;
+					return new Date();
 
 			}
 

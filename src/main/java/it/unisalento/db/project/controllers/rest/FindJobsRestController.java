@@ -1,13 +1,13 @@
 package it.unisalento.db.project.controllers.rest;
 
-import it.unisalento.db.project.models.dto.MonsterJobDetails;
-import it.unisalento.db.project.services.*;
+import it.unisalento.db.project.services.GlassdoorJobsListService;
+import it.unisalento.db.project.services.LinkedinJobsListService;
+import it.unisalento.db.project.services.MonsterJobsListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Map;
 
 @CrossOrigin
 @RestController

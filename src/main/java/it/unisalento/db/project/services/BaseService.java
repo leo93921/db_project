@@ -30,7 +30,6 @@ public class BaseService{
 	@Autowired
 	private PlatformRepository platformRepository;
 
-
 	void saveJobs(List<MongoAdapter> mongoAdapterList) {
 
 		for(MongoAdapter job: Objects.requireNonNull(mongoAdapterList)) {
@@ -44,6 +43,9 @@ public class BaseService{
 			Location location = locationRepository.findByName(job.getLocation().getName());
 			if(location == null) location = locationRepository.save(job.getLocation());
 
+			System.out.println(job.getLocation().getName());
+			System.out.println(job.getPlatform().getName());
+			System.out.println(job.getCompany().getName());
 			jobRepository.save(new Job(job.getJob().getPosted(), null,
 					location.get_id(), platform.get_id(), company.get_id(), job.getJob().getResponsibilities(),
 					job.getJob().getRequirements(), job.getJob().getLink()));
