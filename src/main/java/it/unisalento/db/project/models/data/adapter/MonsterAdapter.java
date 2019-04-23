@@ -71,8 +71,6 @@ public class MonsterAdapter extends Adapter{
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 			Calendar cal = Calendar.getInstance();
 
-			System.out.println(formatText[0]);
-
 			int day = Integer.parseInt(formatText[0]);
 			String type = formatText[1];
 
