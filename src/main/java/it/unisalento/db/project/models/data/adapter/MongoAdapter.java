@@ -41,11 +41,11 @@ public class MongoAdapter implements MongoDataAdapter{
 			if(glassdoorJobDetail != null) return new GlassdoorAdapter(glassdoorJobDetail).getJob();
 			if(linkedinJobDetail != null) return new LinkedinAdapter(linkedinJobDetail).getJob();
 			if(monsterJobDetails != null) return new MonsterAdapter(monsterJobDetails).getJob();
+			return new Job();
 		} catch(ParseException ex) {
 			ex.printStackTrace();
 			return new Job();
 		}
-		return null;
 	}
 
 	@Override
