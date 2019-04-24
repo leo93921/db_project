@@ -44,6 +44,7 @@ public class CompanyService {
         CompanyDto dto = new CompanyDto();
         dto.setId(dao.get_id().toString());
         dto.setName(dao.getName());
+        dto.setFirstVisit(dao.getFirstFind());
         return dto;
     }
 }

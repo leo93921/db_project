@@ -6,11 +6,14 @@ import java.util.List;
 public class JobDto {
 
     private String id;
+    private String name;
     private Date firstVisit;
     private Date lastVisit;
     private List<String> responsibilities;
     private List<String> requirements;
     private String link;
+    private String platform;
+    private CompanyDto company;
 
     public String getId() {
         return id;
@@ -18,6 +21,14 @@ public class JobDto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getFirstVisit() {
@@ -58,5 +69,21 @@ public class JobDto {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public CompanyDto getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyDto company) {
+        this.company = company;
     }
 }

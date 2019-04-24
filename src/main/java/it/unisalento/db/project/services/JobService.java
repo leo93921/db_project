@@ -2,6 +2,7 @@ package it.unisalento.db.project.services;
 
 import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.domain.Job;
+import it.unisalento.db.project.models.dto.CompanyDto;
 import it.unisalento.db.project.models.dto.JobDto;
 import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
@@ -55,11 +56,14 @@ public class JobService {
     private JobDto toDto(Job job) {
         JobDto dto = new JobDto();
         dto.setId(job.get_id().toString());
-        dto.setFirstVisit(job.getPosted());
-        dto.setLastVisit(job.getHiringDate());
+        dto.setName(job.getName());
+        dto.setFirstVisit(job.getFirstFind());
+        dto.setLastVisit(job.getUpdated());
         dto.setRequirements(job.getRequirements());
         dto.setResponsibilities(job.getResponsibilities());
         dto.setLink(job.getLink());
+        dto.setPlatform(job.getPlatform().getName());
+        dto.setCompany(new CompanyDto(job.getCompany().get_id().toString(), job.getCompany().getName(), job.getCompany().getFirstFind()));
         return dto;
     }
 }
