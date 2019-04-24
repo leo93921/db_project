@@ -1,6 +1,6 @@
 package it.unisalento.db.project.controllers.rest;
 
-import it.unisalento.db.project.models.domain.Job;
+import it.unisalento.db.project.models.dto.JobDto;
 import it.unisalento.db.project.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ public class JobsRestController {
     @Autowired private JobService jobService;
 
     @GetMapping
-    public Page<Job> findJobs(@Param("page") Integer page) {
+    public Page<JobDto> findJobs(@Param("page") Integer page) {
         return this.jobService.getJobs(page);
     }
 
