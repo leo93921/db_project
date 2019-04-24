@@ -20,8 +20,6 @@ public class JobService {
 
     // Page is zero-indexed
     public Page<Job> getJobs(Integer page) {
-        List<Job> jobs = jobRepository.findAll();
-        System.out.println(jobs.size());
-        return this.jobRepository.findAll(PageRequest.of(page, PAGE_SIZE));
+        return jobRepository.findAll(PageRequest.of(page, PAGE_SIZE));
     }
 }
