@@ -44,7 +44,7 @@ class LinkedinAdapter extends Adapter{
 
 	@Override
 	public Location getLocation(){
-		return new Location(linkedinJobDetail.getLocation());
+		return new Location(linkedinJobDetail.getLocation().substring(1, linkedinJobDetail.getLocation().length() - 1));
 	}
 
 	/**
