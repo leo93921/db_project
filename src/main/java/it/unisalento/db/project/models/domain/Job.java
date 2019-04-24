@@ -90,15 +90,15 @@ public class Job{
 		return platform;
 	}
 
-	public void setPlatformId(Platform platformId){
+	public void setPlatform(Platform platformId){
 		this.platform = platformId;
 	}
 
-	public Company getCompanyId(){
+	public Company getCompany(){
 		return company;
 	}
 
-	public void setCompanyId(Company companyId){
+	public void setCompany(Company companyId){
 		this.company = companyId;
 	}
 
