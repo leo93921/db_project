@@ -4,7 +4,6 @@ package it.unisalento.db.project.services;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
 import it.unisalento.db.project.models.data.adapter.MongoAdapter;
 import it.unisalento.db.project.models.dto.LinkedinJobDetail;
@@ -23,14 +22,19 @@ import java.util.Map;
 @Service
 public class LinkedinJobsListService extends BaseService{
 
-	@Autowired
+
 	private LinkedinParserService linkedinParserService;
 
+	@Autowired
+	LinkedinJobsListService(LinkedinParserService linkedinParserService){
+		this.linkedinParserService = linkedinParserService;
+	}
 
 	public boolean saveJobs(String url){
 		try{
-			super.saveJobs(parseItems(jobsList(url)));
-			return true;
+			List<MongoAdapter> list = parseItems(jobsList(url));
+			System.out.println("list size: " + list.size() + "\n");
+			return super.saveJobs(list);
 		} catch(Exception e) {
 			return false;
 		}
@@ -38,9 +42,9 @@ public class LinkedinJobsListService extends BaseService{
 
 	private List<Map<String, String>> jobsList(String url){
 
-		try{
+		List<Map<String, String>> maps = new ArrayList<>();
 
-			List<Map<String, String>> maps = new ArrayList<>();
+		try{
 
 			Document doc = Jsoup.connect(url).get();
 
@@ -48,7 +52,9 @@ public class LinkedinJobsListService extends BaseService{
 
 			elements.forEach(element -> {
 				try{
+
 					maps.add(linkedinParserService.parse(element.attributes().get("href")));
+
 				}catch(IOException pa){
 					pa.printStackTrace();
 				}
@@ -58,7 +64,7 @@ public class LinkedinJobsListService extends BaseService{
 
 		} catch(Exception e) {
 			e.printStackTrace();
-			return null;
+			return maps;
 		}
 	}
 
@@ -67,14 +73,13 @@ public class LinkedinJobsListService extends BaseService{
 		List<MongoAdapter> mongoAdapters = new ArrayList<>();
 
 		try{
+			int i = 0;
 
 			for(Map<String, String> map : maps){
 
 				ObjectMapper mapper = new ObjectMapper();
 
 				mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-				System.out.println(map.toString());
 
 				mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
@@ -86,14 +91,19 @@ public class LinkedinJobsListService extends BaseService{
 
 				mongoAdapters.add(new MongoAdapter(null, linkedinJobDetail, null));
 
+				System.out.println("counter: " + i);
+
+				i++;
+
 			}
 
 			return mongoAdapters;
 
 		} catch(Exception e){
 			e.printStackTrace();
+			return mongoAdapters;
 		}
-		return null;
+
 	}
 
 }

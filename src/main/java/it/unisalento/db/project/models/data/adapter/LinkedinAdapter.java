@@ -23,7 +23,7 @@ class LinkedinAdapter extends Adapter{
 
 	@Override
 	public Company getCompany() {
-		return new Company(linkedinJobDetail.getCompany().substring(1));
+		return new Company(linkedinJobDetail.getCompany().substring(2, linkedinJobDetail.getCompany().length() - 1));
 	}
 
 	@Override
@@ -34,7 +34,7 @@ class LinkedinAdapter extends Adapter{
 			String responsibilities = super.findResponsibilities(formattedText);
 			Date posted = convertDate(linkedinJobDetail.getPosted());
 			String link = linkedinJobDetail.getLink() + "";
-			return new Job(posted, null, getLocation().get_id(), getPlatform().get_id(), getCompany().get_id(),
+			return new Job(posted, null, getLocation(), getPlatform(), getCompany(),
 					responsibilities, requirements, link);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -86,7 +86,6 @@ class LinkedinAdapter extends Adapter{
 			}
 
 		} catch(ParseException pa) {
-			pa.printStackTrace();
 			return null;
 		}
 	}

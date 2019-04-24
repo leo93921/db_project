@@ -18,8 +18,8 @@ public class JobsRestController {
 
     @Autowired private JobService jobService;
 
-    @GetMapping
-    public Page<Job> findJobs(@Param("page") Integer page) {
+    @GetMapping(value = "/findAll")
+    public Page<Job> findJobs(@Param("page-start") Integer page) {
         return this.jobService.getJobs(page);
     }
 

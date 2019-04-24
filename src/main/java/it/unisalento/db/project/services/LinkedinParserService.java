@@ -52,7 +52,7 @@ public class LinkedinParserService {
         Elements company = doc.getElementsByClass("topcard__org-name-link");
         if (company.isEmpty()){
             company = doc.getElementsByClass("topcard__flavor");
-            System.out.println(company.text());
+
             if(!company.isEmpty()) parsedItems.put("company", "\"" + company.get(1).html() + "\"");
         }else{
             parsedItems.put("company", "\"" + "\"" + company.get(0).html() + "\"");

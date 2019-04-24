@@ -24,7 +24,7 @@ public class FindJobsRestController{
 	private GlassdoorJobsListService glassdoorJobsListService;
 
 	@PostMapping(value = "/linkedin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public boolean parseLinkedInLink(@RequestParam("url") String url) throws IOException{
+	public boolean parseLinkedInLink(@RequestBody String url) throws IOException{
 		return linkedinJobsListService.saveJobs(url);
 	}
 

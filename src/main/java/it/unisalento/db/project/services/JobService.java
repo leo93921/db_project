@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class JobService {
@@ -14,10 +16,12 @@ public class JobService {
     private final Integer PAGE_SIZE = 10;
 
     @Autowired
-    private JobRepository repository;
+    private JobRepository jobRepository;
 
     // Page is zero-indexed
     public Page<Job> getJobs(Integer page) {
-        return this.repository.findAll(PageRequest.of(page, PAGE_SIZE));
+        List<Job> jobs = jobRepository.findAll();
+        System.out.println(jobs.size());
+        return this.jobRepository.findAll(PageRequest.of(page, PAGE_SIZE));
     }
 }

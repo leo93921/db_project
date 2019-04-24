@@ -3,6 +3,7 @@ package it.unisalento.db.project.models.domain;
 import com.mongodb.lang.Nullable;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -16,9 +17,12 @@ public class Job{
 	private Date posted;
 	private Date hiringDate;
 
-	private ObjectId locationId;
-	private ObjectId platformId;
-	private ObjectId companyId;
+	@DBRef
+	private Location location;
+	@DBRef
+	private Platform platform;
+	@DBRef
+	private Company company;
 
 	private String responsibilities;
 	private String requirements;
@@ -26,14 +30,14 @@ public class Job{
 
 	public Job() {}
 
-	public Job(Date posted, @Nullable Date hiringDate, @Nullable ObjectId locationId, @Nullable ObjectId platformId,
-	           @Nullable ObjectId companyId, String responsibilities, String requirements, String link) {
+	public Job(Date posted, @Nullable Date hiringDate, @Nullable Location location, @Nullable Platform platform,
+	           @Nullable Company company, String responsibilities, String requirements, String link) {
 
 		this.posted = posted;
 		this.hiringDate = hiringDate;
-		this.locationId = locationId;
-		this.platformId = platformId;
-		this.companyId = companyId;
+		this.location = location;
+		this.platform = platform;
+		this.company = company;
 		this.responsibilities = responsibilities;
 		this.requirements = requirements;
 		this.link = link;
@@ -64,28 +68,28 @@ public class Job{
 		this.hiringDate = hiringDate;
 	}
 
-	public ObjectId getLocationId(){
-		return locationId;
+	public Location getLocation(){
+		return location;
 	}
 
-	public void setLocationId(ObjectId locationId){
-		this.locationId = locationId;
+	public void setLocation(Location locationId){
+		this.location = locationId;
 	}
 
-	public ObjectId getPlatformId(){
-		return platformId;
+	public Platform getPlatform(){
+		return platform;
 	}
 
-	public void setPlatformId(ObjectId platformId){
-		this.platformId = platformId;
+	public void setPlatformId(Platform platformId){
+		this.platform = platformId;
 	}
 
-	public ObjectId getCompanyId(){
-		return companyId;
+	public Company getCompanyId(){
+		return company;
 	}
 
-	public void setCompanyId(ObjectId companyId){
-		this.companyId = companyId;
+	public void setCompanyId(Company companyId){
+		this.company = companyId;
 	}
 
 	public String getResponsibilities(){

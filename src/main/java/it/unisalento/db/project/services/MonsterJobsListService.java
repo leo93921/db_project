@@ -19,8 +19,7 @@ public class MonsterJobsListService extends BaseService{
 
 	public boolean saveJobs(String url){
 		try{
-			super.saveJobs(getData(parseList(url)));
-			return true;
+			return super.saveJobs(getData(parseList(url)));
 		} catch(Exception e) {
 			return false;
 		}
