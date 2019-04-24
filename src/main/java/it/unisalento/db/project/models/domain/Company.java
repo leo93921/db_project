@@ -4,12 +4,16 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "Company")
 public class Company{
 	@Id
 	private ObjectId _id;
 
 	private String name;
+
+	private Date firstFind;
 
 
 	public Company(){}
@@ -33,4 +37,13 @@ public class Company{
 	public void set_id(ObjectId _id){
 		this._id = _id;
 	}
+
+	public Date getFirstFind(){
+		return firstFind;
+	}
+
+	public void setFirstFind(Date firstFind){
+		this.firstFind = firstFind;
+	}
+
 }

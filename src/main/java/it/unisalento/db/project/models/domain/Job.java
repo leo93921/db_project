@@ -24,16 +24,22 @@ public class Job{
 	@DBRef
 	private Company company;
 
+	private String name;
 	private String responsibilities;
 	private String requirements;
 	private String link;
 
+	private Date firstFind;
+	private Date updated;
+
 	public Job() {}
 
-	public Job(Date posted, @Nullable Date hiringDate, @Nullable Location location, @Nullable Platform platform,
-	           @Nullable Company company, String responsibilities, String requirements, String link) {
+	public Job(Date posted, String name, @Nullable Date hiringDate, @Nullable Location location, @Nullable Platform platform,
+	           @Nullable Company company, String responsibilities, String requirements, String link,
+	           @Nullable Date firstFind, @Nullable Date updated) {
 
 		this.posted = posted;
+		this.name = name;
 		this.hiringDate = hiringDate;
 		this.location = location;
 		this.platform = platform;
@@ -41,6 +47,8 @@ public class Job{
 		this.responsibilities = responsibilities;
 		this.requirements = requirements;
 		this.link = link;
+		this.firstFind = firstFind;
+		this.updated = updated;
 
 	}
 
@@ -116,4 +124,27 @@ public class Job{
 		this.link = link;
 	}
 
+	public Date getFirstFind(){
+		return firstFind;
+	}
+
+	public void setFirstFind(Date firstFind){
+		this.firstFind = firstFind;
+	}
+
+	public Date getUpdated(){
+		return updated;
+	}
+
+	public void setUpdated(Date updated){
+		this.updated = updated;
+	}
+
+	public String getName(){
+		return name;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
 }

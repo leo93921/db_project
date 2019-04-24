@@ -31,8 +31,8 @@ class GlassdoorAdapter extends Adapter{
 		String responsibilities = super.findResponsibilities(formattedText);
 		Date posted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(glassdoorJobDetail.getJob().getDiscoverDate());
 		String link = glassdoorJobDetail.getJob().getListingId() + "";
-		return new Job(posted, null, getLocation(), getPlatform(), getCompany(),
-				responsibilities, requirements, link);
+		return new Job(posted, glassdoorJobDetail.getHeader().getJobTitle(), null, getLocation(), getPlatform(), getCompany(),
+				responsibilities, requirements, link, null, null);
 	}
 
 	@Override

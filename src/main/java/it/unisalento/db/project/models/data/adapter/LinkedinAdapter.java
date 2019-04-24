@@ -23,7 +23,7 @@ class LinkedinAdapter extends Adapter{
 
 	@Override
 	public Company getCompany() {
-		return new Company(linkedinJobDetail.getCompany().substring(2, linkedinJobDetail.getCompany().length() - 1));
+		return new Company(linkedinJobDetail.getCompany());
 	}
 
 	@Override
@@ -34,8 +34,8 @@ class LinkedinAdapter extends Adapter{
 			String responsibilities = super.findResponsibilities(formattedText);
 			Date posted = convertDate(linkedinJobDetail.getPosted());
 			String link = linkedinJobDetail.getLink() + "";
-			return new Job(posted, null, getLocation(), getPlatform(), getCompany(),
-					responsibilities, requirements, link);
+			return new Job(posted, linkedinJobDetail.getName(), null, getLocation(), getPlatform(), getCompany(),
+					responsibilities, requirements, link, null,null);
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -44,7 +44,7 @@ class LinkedinAdapter extends Adapter{
 
 	@Override
 	public Location getLocation(){
-		return new Location(linkedinJobDetail.getLocation().substring(1, linkedinJobDetail.getLocation().length() - 1));
+		return new Location(linkedinJobDetail.getLocation());
 	}
 
 	/**
@@ -65,19 +65,19 @@ class LinkedinAdapter extends Adapter{
 		try{
 			switch(dates[1]){
 				case "days":
-					cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[0].substring(1)));
+					cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[0]));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				case "weeks":
-					cal.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(dates[0].substring(1)));
+					cal.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(dates[0]));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				case "month":
-					cal.add(Calendar.MONTH, Integer.parseInt(dates[0].substring(1)));
+					cal.add(Calendar.MONTH, Integer.parseInt(dates[0]));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				case "year":
-					cal.add(Calendar.YEAR, Integer.parseInt(dates[0].substring(1)));
+					cal.add(Calendar.YEAR, Integer.parseInt(dates[0]));
 					return dateFormat.parse(dateFormat.format(cal.getTime()));
 
 				default:

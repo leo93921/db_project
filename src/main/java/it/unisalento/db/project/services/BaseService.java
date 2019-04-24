@@ -12,6 +12,7 @@ import it.unisalento.db.project.repository.PlatformRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,14 +43,23 @@ public class BaseService{
 				if(platform == null) platform = platformRepository.save(job.getPlatform());
 
 				Company company = companyRepository.findByName(job.getCompany().getName());
-				if(company == null) company = companyRepository.save(job.getCompany());
+				if(company == null){
+					job.getCompany().setFirstFind(new Date());
+					company = companyRepository.save(job.getCompany());
+				}
 
 				Location location = locationRepository.findByName(job.getLocation().getName());
 				if(location == null) location = locationRepository.save(job.getLocation());
 
-				jobRepository.save(new Job(job.getJob().getPosted(), null,
-						location, platform, company, job.getJob().getResponsibilities(),
-						job.getJob().getRequirements(), job.getJob().getLink()));
+				Job existingJob = jobRepository.findByPlatformAndLink(platform, job.getJob().getLink());
+				if(existingJob != null){
+					existingJob.setUpdated(new Date());
+					jobRepository.save(existingJob);
+				} else {
+					jobRepository.save(new Job(job.getJob().getPosted(), job.getJob().getName(), null,
+							location, platform, company, job.getJob().getResponsibilities(),
+							job.getJob().getRequirements(), job.getJob().getLink(), new Date(), new Date()));
+				}
 
 			}
 
