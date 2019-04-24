@@ -15,7 +15,7 @@ import java.util.List;
 public class MonsterJobsListService extends BaseService{
 
 	@Autowired
-	MonsterParserService monsterParserService;
+	private MonsterParserService monsterParserService;
 
 	public boolean saveJobs(String url){
 		try{

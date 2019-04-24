@@ -1,11 +1,16 @@
 package it.unisalento.db.project.repository;
 
 import it.unisalento.db.project.models.domain.Job;
+import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import it.unisalento.db.project.models.domain.Platform;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository("job-repository")
 public interface JobRepository extends MongoRepository<Job, String>{
-	public Job findByPlatformAndLink(Platform platform, String link);
+
+    Page<Job> findAllByCompany(ObjectId id, PageRequest of);
+	Job findByPlatformAndLink(Platform platform, String link);
 }
