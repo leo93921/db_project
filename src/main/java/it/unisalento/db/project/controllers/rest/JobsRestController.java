@@ -25,4 +25,9 @@ public class JobsRestController {
     public JobDto getJobByID(@PathVariable("id") String id) throws JobNotFoundException {
         return this.jobService.getByID(id);
     }
+
+    @GetMapping("/from-company/{id}")
+    public Page<JobDto> findByCompany(@PathVariable("id") String id, @Param("page") Integer page) {
+        return this.jobService.findByCompanyID(id, page);
+    }
 }
