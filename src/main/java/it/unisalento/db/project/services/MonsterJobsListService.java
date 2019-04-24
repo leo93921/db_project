@@ -15,12 +15,11 @@ import java.util.List;
 public class MonsterJobsListService extends BaseService{
 
 	@Autowired
-	MonsterParserService monsterParserService;
+	private MonsterParserService monsterParserService;
 
 	public boolean saveJobs(String url){
 		try{
-			super.saveJobs(getData(parseList(url)));
-			return true;
+			return super.saveJobs(getData(parseList(url)));
 		} catch(Exception e) {
 			return false;
 		}

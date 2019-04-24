@@ -4,7 +4,6 @@ import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.domain.Job;
 import it.unisalento.db.project.models.dto.JobDto;
 import it.unisalento.db.project.repository.JobRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,7 +25,7 @@ public class JobService {
 
 
     public Page<JobDto> getJobs(Integer page) {
-        Page<Job> jobPage = this.repository.findAll(PageRequest.of(page, PAGE_SIZE));
+        Page<Job> jobPage = repository.findAll(PageRequest.of(page, PAGE_SIZE));
 
         List<JobDto> dtos = new ArrayList<>();
         for (Job j : jobPage.getContent()) {

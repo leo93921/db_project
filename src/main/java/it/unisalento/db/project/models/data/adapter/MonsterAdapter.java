@@ -38,7 +38,7 @@ public class MonsterAdapter extends Adapter{
 			Date posted = dateParser(monsterJobDetails.getSummary().getInfo().get(1).getText());
 			String link = monsterJobDetails.getJobId();
 
-			return new Job(posted, null, getLocation().get_id(), getPlatform().get_id(), getCompany().get_id(),
+			return new Job(posted, null, getLocation(), getPlatform(), getCompany(),
 					responsibilities, requirements, link);
 		} catch(Exception e) {
 			return new Job();

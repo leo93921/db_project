@@ -22,9 +22,8 @@ public class GlassdoorJobsListService extends BaseService{
 	public boolean saveJobs(String url){
 		try{
 
-			super.saveJobs(jobsList(url));
+			return super.saveJobs(jobsList(url));
 
-			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;
@@ -33,10 +32,10 @@ public class GlassdoorJobsListService extends BaseService{
 
 	private List<MongoAdapter> jobsList(String url) {
 
+		List<MongoAdapter> jobs = new ArrayList<>();
+
+
 		try{
-
-			List<MongoAdapter> jobs = new ArrayList<>();
-
 			Document doc = Jsoup.connect(url).get();
 			Elements h1s = doc.getElementsByAttributeValue("property", "og:url");
 
@@ -67,8 +66,7 @@ public class GlassdoorJobsListService extends BaseService{
 			return jobs;
 
 		} catch(Exception ex) {
-			ex.printStackTrace();
-			return null;
+			return jobs;
 		}
 	}
 

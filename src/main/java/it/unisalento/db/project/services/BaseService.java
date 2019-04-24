@@ -20,33 +20,44 @@ public class BaseService{
 
 	@Autowired
 	private JobRepository jobRepository;
-
 	@Autowired
 	private LocationRepository locationRepository;
-
 	@Autowired
 	private CompanyRepository companyRepository;
-
 	@Autowired
 	private PlatformRepository platformRepository;
 
-	void saveJobs(List<MongoAdapter> mongoAdapterList) {
 
-		for(MongoAdapter job: Objects.requireNonNull(mongoAdapterList)) {
 
-			Platform platform = platformRepository.findByName(job.getPlatform().getName());
-			if(platform == null) platform = platformRepository.save(job.getPlatform());
+	BaseService(){}
 
-			Company company = companyRepository.findByName(job.getCompany().getName());
-			if(company == null) company = companyRepository.save(job.getCompany());
+	boolean saveJobs(List<MongoAdapter> mongoAdapterList) {
 
-			Location location = locationRepository.findByName(job.getLocation().getName());
-			if(location == null) location = locationRepository.save(job.getLocation());
+		if(mongoAdapterList.size() == 0) return false;
 
-			jobRepository.save(new Job(job.getJob().getPosted(), null,
-					location.get_id(), platform.get_id(), company.get_id(), job.getJob().getResponsibilities(),
-					job.getJob().getRequirements(), job.getJob().getLink()));
+		try{
+			for(MongoAdapter job : Objects.requireNonNull(mongoAdapterList)){
 
+				Platform platform = platformRepository.findByName(job.getPlatform().getName());
+				if(platform == null) platform = platformRepository.save(job.getPlatform());
+
+				Company company = companyRepository.findByName(job.getCompany().getName());
+				if(company == null) company = companyRepository.save(job.getCompany());
+
+				Location location = locationRepository.findByName(job.getLocation().getName());
+				if(location == null) location = locationRepository.save(job.getLocation());
+
+				jobRepository.save(new Job(job.getJob().getPosted(), null,
+						location, platform, company, job.getJob().getResponsibilities(),
+						job.getJob().getRequirements(), job.getJob().getLink()));
+
+			}
+
+			return true;
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 
 	}
