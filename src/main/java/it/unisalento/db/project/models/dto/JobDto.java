@@ -1,14 +1,15 @@
 package it.unisalento.db.project.models.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class JobDto {
 
     private String id;
     private Date firstVisit;
     private Date lastVisit;
-    private String responsibilities;
-    private String requirements;
+    private List<String> responsibilities;
+    private List<String> requirements;
     private String link;
 
     public String getId() {
@@ -35,19 +36,19 @@ public class JobDto {
         this.lastVisit = lastVisit;
     }
 
-    public String getResponsibilities() {
+    public List<String> getResponsibilities() {
         return responsibilities;
     }
 
-    public void setResponsibilities(String responsibilities) {
+    public void setResponsibilities(List<String> responsibilities) {
         this.responsibilities = responsibilities;
     }
 
-    public String getRequirements() {
+    public List<String> getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(String requirements) {
+    public void setRequirements(List<String> requirements) {
         this.requirements = requirements;
     }
 
