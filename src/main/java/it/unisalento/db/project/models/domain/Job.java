@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "Job")
 public class Job{
@@ -24,9 +25,10 @@ public class Job{
 	@DBRef
 	private Company company;
 
+	private List<String> responsibilities;
+	private List<String> requirements;
+
 	private String name;
-	private String responsibilities;
-	private String requirements;
 	private String link;
 
 	private Date firstFind;
@@ -35,7 +37,7 @@ public class Job{
 	public Job() {}
 
 	public Job(Date posted, String name, @Nullable Date hiringDate, @Nullable Location location, @Nullable Platform platform,
-	           @Nullable Company company, String responsibilities, String requirements, String link,
+	           @Nullable Company company, List<String> responsibilities, List<String> requirements, String link,
 	           @Nullable Date firstFind, @Nullable Date updated) {
 
 		this.posted = posted;
@@ -100,19 +102,19 @@ public class Job{
 		this.company = companyId;
 	}
 
-	public String getResponsibilities(){
+	public List<String> getResponsibilities(){
 		return responsibilities;
 	}
 
-	public void setResponsibilities(String responsibilities){
+	public void setResponsibilities(List<String> responsibilities){
 		this.responsibilities = responsibilities;
 	}
 
-	public String getRequirements(){
+	public List<String> getRequirements(){
 		return requirements;
 	}
 
-	public void setRequirements(String requirements){
+	public void setRequirements(List<String> requirements){
 		this.requirements = requirements;
 	}
 

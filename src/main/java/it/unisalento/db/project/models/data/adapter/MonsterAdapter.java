@@ -33,8 +33,8 @@ public class MonsterAdapter extends Adapter{
 	public Job getJob() {
 		try{
 			List<String> formattedText = super.formatText(monsterJobDetails.getJobDescription());
-			String requirements = super.findRequirements(formattedText);
-			String responsibilities = super.findResponsibilities(formattedText);
+			List<String> requirements = super.findRequirements(formattedText);
+			List<String> responsibilities = super.findResponsibilities(formattedText);
 			Date posted = dateParser(monsterJobDetails.getSummary().getInfo().get(1).getText());
 			String link = monsterJobDetails.getJobId();
 

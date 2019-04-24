@@ -30,8 +30,8 @@ class LinkedinAdapter extends Adapter{
 	public Job getJob() {
 		try{
 			List<String> formattedText = super.formatText(linkedinJobDetail.getDescription());
-			String requirements = super.findRequirements(formattedText);
-			String responsibilities = super.findResponsibilities(formattedText);
+			List<String> requirements = super.findRequirements(formattedText);
+			List<String> responsibilities = super.findResponsibilities(formattedText);
 			Date posted = convertDate(linkedinJobDetail.getPosted());
 			String link = linkedinJobDetail.getLink() + "";
 			return new Job(posted, linkedinJobDetail.getName(), null, getLocation(), getPlatform(), getCompany(),
@@ -86,7 +86,7 @@ class LinkedinAdapter extends Adapter{
 			}
 
 		} catch(ParseException pa) {
-			return null;
+			return new Date();
 		}
 	}
 

@@ -51,7 +51,7 @@ public class Adapter implements IAdapter{
 
 	}
 
-	String findResponsibilities(List<String> formattedText){
+	List<String> findResponsibilities(List<String> formattedText){
 		try{
 			String LANGUAGE_CSV_PATH = System.getProperty("user.dir") +
 					"/src/main/java/it/unisalento/db/project/data/responsibilities.csv";
@@ -73,14 +73,14 @@ public class Adapter implements IAdapter{
 				}
 			}
 
-			return recordFound.toString();
+			return recordFound;
 
 		} catch(Exception e) {
-			return null;
+			return new ArrayList<>();
 		}
 	}
 
-	String findRequirements(List<String> formattedText){
+	List<String> findRequirements(List<String> formattedText){
 		try {
 
 			String LANGUAGE_CSV_PATH = System.getProperty("user.dir") +
@@ -118,11 +118,11 @@ public class Adapter implements IAdapter{
 				}
 			}
 
-			return recordFound.toString();
+			return recordFound;
 
 		} catch(Exception e) {
 			e.printStackTrace();
-			return "";
+			return new ArrayList<>();
 		}
 
 	}
