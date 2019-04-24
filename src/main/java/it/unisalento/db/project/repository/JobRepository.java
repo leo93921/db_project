@@ -1,6 +1,7 @@
 package it.unisalento.db.project.repository;
 
 import it.unisalento.db.project.models.domain.Job;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
