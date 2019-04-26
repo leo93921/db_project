@@ -134,7 +134,7 @@ public class Adapter implements IAdapter{
 	}
 
 	@Override
-	public Job getJob() throws ParseException{
+	public Job getJob() {
 		return null;
 	}
 

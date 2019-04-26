@@ -22,6 +22,11 @@ public class Company{
 		this.name = name;
 	}
 
+	public Company(String name, Date firstFind){
+		this.name = name;
+		this.firstFind = firstFind;
+	}
+
 	public String getName(){
 		return name;
 	}

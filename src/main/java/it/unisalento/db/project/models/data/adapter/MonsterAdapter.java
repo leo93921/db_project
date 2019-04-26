@@ -25,7 +25,7 @@ public class MonsterAdapter extends Adapter{
 		try{
 			return new Company(monsterJobDetails.getCompanyInfo().getName());
 		} catch(Exception e) {
-			return new Company("");
+			return null;
 		}
 	}
 
@@ -41,7 +41,7 @@ public class MonsterAdapter extends Adapter{
 			return new Job(posted, monsterJobDetails.getJobCategory(), null, getLocation(), getPlatform(), getCompany(),
 					responsibilities, requirements, link, null, null);
 		} catch(Exception e) {
-			return new Job();
+			return null;
 		}
 	}
 
@@ -50,17 +50,13 @@ public class MonsterAdapter extends Adapter{
 		try{
 			return new Location(monsterJobDetails.getLocations().get(0));
 		} catch(Exception e) {
-			return new Location();
+			return null;
 		}
 	}
 
 	@Override
 	public Platform getPlatform(){
-		try{
-			return new Platform("Monster", "https://offerte-di-lavoro.monster.it/v2/job/pure-json-view?jobid=");
-		} catch(Exception e) {
-			return new Platform();
-		}
+		return new Platform("Monster", "https://offerte-di-lavoro.monster.it/v2/job/pure-json-view?jobid=");
 	}
 
 	private Date dateParser(String dateToConvert) {

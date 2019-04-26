@@ -39,27 +39,30 @@ public class BaseService{
 		try{
 			for(MongoAdapter job : Objects.requireNonNull(mongoAdapterList)){
 
-				Platform platform = platformRepository.findByName(job.getPlatform().getName());
-				if(platform == null) platform = platformRepository.save(job.getPlatform());
+				if(job.getCompany() !=  null || job.getJob() != null ||
+						job.getLocation() != null || job.getPlatform() != null){
 
-				Company company = companyRepository.findByName(job.getCompany().getName());
-				if(company == null){
-					job.getCompany().setFirstFind(new Date());
-					System.out.println(job.getCompany().getFirstFind());
-					company = companyRepository.save(job.getCompany());
-				}
+					Platform platform = platformRepository.findByName(job.getPlatform().getName());
+					if(platform == null) platform = platformRepository.save(job.getPlatform());
 
-				Location location = locationRepository.findByName(job.getLocation().getName());
-				if(location == null) location = locationRepository.save(job.getLocation());
+					Company company = companyRepository.findByName(job.getCompany().getName());
+					if(company == null){
+						company = companyRepository.save(new Company(job.getCompany().getName(), new Date()));
+					}
 
-				Job existingJob = jobRepository.findByPlatformAndLink(platform, job.getJob().getLink());
-				if(existingJob != null){
-					existingJob.setUpdated(new Date());
-					jobRepository.save(existingJob);
-				} else {
-					jobRepository.save(new Job(job.getJob().getPosted(), job.getJob().getName(), null,
-							location, platform, company, job.getJob().getResponsibilities(),
-							job.getJob().getRequirements(), job.getJob().getLink(), new Date(), new Date()));
+					Location location = locationRepository.findByName(job.getLocation().getName());
+					if(location == null) location = locationRepository.save(job.getLocation());
+
+					Job existingJob = jobRepository.findByPlatformAndLink(platform, job.getJob().getLink());
+					if(existingJob != null){
+						existingJob.setUpdated(new Date());
+						jobRepository.save(existingJob);
+					}else{
+						jobRepository.save(new Job(job.getJob().getPosted(), job.getJob().getName(), null,
+								location, platform, company, job.getJob().getResponsibilities(),
+								job.getJob().getRequirements(), job.getJob().getLink(), new Date(), new Date()));
+					}
+
 				}
 
 			}

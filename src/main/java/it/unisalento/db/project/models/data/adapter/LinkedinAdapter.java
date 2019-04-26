@@ -23,7 +23,11 @@ class LinkedinAdapter extends Adapter{
 
 	@Override
 	public Company getCompany() {
-		return new Company(linkedinJobDetail.getCompany());
+		try{
+			return new Company(linkedinJobDetail.getCompany());
+		} catch(Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -37,19 +41,20 @@ class LinkedinAdapter extends Adapter{
 			return new Job(posted, linkedinJobDetail.getName(), null, getLocation(), getPlatform(), getCompany(),
 					responsibilities, requirements, link, null,null);
 		} catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
 	}
 
 	@Override
 	public Location getLocation(){
-		return new Location(linkedinJobDetail.getLocation());
+		try{
+			return new Location(linkedinJobDetail.getLocation());
+		} catch(Exception e) {
+			return null;
+		}
 	}
 
-	/**
-	 * Bisogna dividere il link a metà in -- ed inserire li l'id dell'annuncio
-	 */
 	@Override
 	public Platform getPlatform(){
 		return new Platform("Linkedin", "https://www.linkedin.com/jobs/view/--?trk=jobs_jserp_job_listing_text");
