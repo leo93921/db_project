@@ -40,4 +40,5 @@ public class CompanyDto {
     public void setFirstVisit(Date firstVisit) {
         this.firstVisit = firstVisit;
     }
+
 }

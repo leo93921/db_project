@@ -66,4 +66,8 @@ public class JobService {
         dto.setCompany(new CompanyDto(job.getCompany().get_id().toString(), job.getCompany().getName(), job.getCompany().getFirstFind()));
         return dto;
     }
+
+    public long countJobs(){
+        return this.repository.count();
+    }
 }
