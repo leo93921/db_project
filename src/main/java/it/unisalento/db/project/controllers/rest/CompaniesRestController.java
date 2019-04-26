@@ -2,6 +2,7 @@ package it.unisalento.db.project.controllers.rest;
 
 import it.unisalento.db.project.exceptions.CompanyNotFoundException;
 import it.unisalento.db.project.models.dto.CompanyDto;
+import it.unisalento.db.project.models.dto.CompanyWithJobsCountDto;
 import it.unisalento.db.project.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,8 @@ public class CompaniesRestController {
     @Autowired private CompanyService companyService;
 
     @GetMapping
-    public Page<CompanyDto> getAllCompanies(@Param("page") Integer page) {
-        return this.companyService.findAll(page);
+    public Page<CompanyWithJobsCountDto> getAllCompanies(@Param("page") Integer page) {
+        return this.companyService.findAllWithCount(page);
     }
 
     @GetMapping("/{id}")
