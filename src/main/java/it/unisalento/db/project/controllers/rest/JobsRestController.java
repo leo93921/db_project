@@ -30,4 +30,9 @@ public class JobsRestController {
     public Page<JobDto> findByCompany(@PathVariable("id") String id, @Param("page") Integer page) {
         return this.jobService.findByCompanyID(id, page);
     }
+
+    @GetMapping("/count")
+    public long countJobs(){
+        return this.jobService.countJobs();
+    }
 }

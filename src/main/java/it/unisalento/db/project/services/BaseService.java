@@ -45,6 +45,7 @@ public class BaseService{
 				Company company = companyRepository.findByName(job.getCompany().getName());
 				if(company == null){
 					job.getCompany().setFirstFind(new Date());
+					System.out.println(job.getCompany().getFirstFind());
 					company = companyRepository.save(job.getCompany());
 				}
 
