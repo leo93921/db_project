@@ -2,7 +2,7 @@ package it.unisalento.db.project.models.dto;
 
 import java.util.Date;
 
-public class JobHistoryItemDto {
+public class TrackingHistoryItemDto {
 
     private long count;
     private Date date;

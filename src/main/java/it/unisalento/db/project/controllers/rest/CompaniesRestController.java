@@ -1,14 +1,16 @@
 package it.unisalento.db.project.controllers.rest;
 
 import it.unisalento.db.project.exceptions.CompanyNotFoundException;
-import it.unisalento.db.project.models.domain.Company;
 import it.unisalento.db.project.models.dto.CompanyDto;
 import it.unisalento.db.project.models.dto.CompanyWithJobsCountDto;
+import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
 import it.unisalento.db.project.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -35,5 +37,10 @@ public class CompaniesRestController {
     @GetMapping("/count")
     public long countCompany(){
         return this.companyService.countCompany();
+    }
+
+    @GetMapping("/history")
+    public List<TrackingHistoryItemDto> getHistory() {
+        return this.companyService.getCompaniesHistory();
     }
 }

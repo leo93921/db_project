@@ -5,6 +5,7 @@ import it.unisalento.db.project.models.domain.Company;
 import it.unisalento.db.project.models.domain.Job;
 import it.unisalento.db.project.models.dto.CompanyDto;
 import it.unisalento.db.project.models.dto.CompanyWithJobsCountDto;
+import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
 import it.unisalento.db.project.repository.CompanyRepository;
 import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
@@ -28,6 +29,7 @@ public class CompanyService {
     @Autowired private CompanyRepository repository;
     @Autowired private MongoTemplate mongoTemplate;
     @Autowired private JobRepository jobRepository;
+    @Autowired private TrackingHistoryService trackingHistoryService;
 
     public Page<CompanyDto> findAll(Integer page) {
         Page<Company> daoPage = this.repository.findAll(PageRequest.of(page, PAGE_SIZE));
@@ -77,6 +79,10 @@ public class CompanyService {
 
     public long countCompany(){
         return repository.count();
+    }
+
+    public List<TrackingHistoryItemDto> getCompaniesHistory() {
+        return this.trackingHistoryService.getHistory("Company");
     }
 
     private CompanyDto toDto(Company dao) {

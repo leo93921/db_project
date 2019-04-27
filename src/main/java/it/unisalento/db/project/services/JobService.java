@@ -4,16 +4,13 @@ import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.domain.Job;
 import it.unisalento.db.project.models.dto.CompanyDto;
 import it.unisalento.db.project.models.dto.JobDto;
-import it.unisalento.db.project.models.dto.JobHistoryItemDto;
+import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
 import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +25,7 @@ public class JobService {
 
     @Autowired
     private JobRepository repository;
-    @Autowired private MongoTemplate mongoTemplate;
+    @Autowired private TrackingHistoryService trackingHistoryService;
 
 
     public Page<JobDto> getJobs(Integer page) {
@@ -58,23 +55,8 @@ public class JobService {
         return new PageImpl<>(dtos, daosByCompany.getPageable(), daosByCompany.getTotalElements());
     }
 
-    public List<JobHistoryItemDto> getJobHistory() {
-        Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.project("_id")
-                        .andExpression("dayOfMonth(firstFind)").as("day")
-                        .andExpression("month(firstFind)").as("month")
-                        .andExpression("year(firstFind)").as("year"),
-                Aggregation.group(Aggregation.fields().and("day").and("month").and("year"))
-                        .count().as("count"),
-                Aggregation.project("count")
-                        .and(DateOperators.DateFromParts.dateFromParts()
-                                .yearOf("_id.year").monthOf("_id.month").dayOf("_id.day")).as("date"),
-                Aggregation.sort(Sort.Direction.ASC, "date")
-        );
-
-        AggregationResults<JobHistoryItemDto> aggregationResults = mongoTemplate.aggregate(aggregation, "Job", JobHistoryItemDto.class);
-
-        return aggregationResults.getMappedResults();
+    public List<TrackingHistoryItemDto> getJobHistory() {
+        return trackingHistoryService.getHistory("Job");
     }
 
     private JobDto toDto(Job job) {

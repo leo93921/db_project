@@ -2,7 +2,7 @@ package it.unisalento.db.project.controllers.rest;
 
 import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.dto.JobDto;
-import it.unisalento.db.project.models.dto.JobHistoryItemDto;
+import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
 import it.unisalento.db.project.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +40,7 @@ public class JobsRestController {
     }
 
     @GetMapping("/history")
-    public List<JobHistoryItemDto> getHistory() {
+    public List<TrackingHistoryItemDto> getHistory() {
         return jobService.getJobHistory();
     }
 }
