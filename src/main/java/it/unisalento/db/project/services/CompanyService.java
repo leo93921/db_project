@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.stereotype.Service;
@@ -91,5 +92,26 @@ public class CompanyService {
         dto.setName(dao.getName());
         dto.setFirstVisit(dao.getFirstFind());
         return dto;
+    }
+
+    public List<CompanyWithJobsCountDto> getMostActiveCompanies(Integer limit) {
+        Aggregation agg = Aggregation.newAggregation(
+                Aggregation.group("company").count().as("jobCount"),
+                Aggregation.project("jobCount").and(
+                        ArrayOperators.ArrayElemAt.arrayOf(
+                                ObjectOperators.ObjectToArray.valueOfToArray("_id")
+                        ).elementAt(1)
+                ).as("companyId"),
+                Aggregation.lookup("Company", "companyId.v", "_id", "companyInfo"),
+                Aggregation.project("jobCount").and(
+                        ArrayOperators.ArrayElemAt.arrayOf("companyInfo").elementAt(0)
+                ).as("company"),
+                Aggregation.project("jobCount").and("company.name").as("name").and("company._id").as("_id"),
+                Aggregation.sort(Sort.Direction.DESC, "jobCount"),
+                Aggregation.limit(limit)
+        );
+
+        AggregationResults<CompanyWithJobsCountDto> results = mongoTemplate.aggregate(agg, Job.class, CompanyWithJobsCountDto.class);
+        return results.getMappedResults();
     }
 }

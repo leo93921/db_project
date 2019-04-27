@@ -43,4 +43,9 @@ public class CompaniesRestController {
     public List<TrackingHistoryItemDto> getHistory() {
         return this.companyService.getCompaniesHistory();
     }
+
+    @GetMapping("/most-active")
+    public List<CompanyWithJobsCountDto> getMostActiveCompanies(@Param("limit") Integer limit) {
+        return this.companyService.getMostActiveCompanies(limit);
+    }
 }
