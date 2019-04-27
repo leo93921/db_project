@@ -54,7 +54,6 @@ public class MonsterJobsListService extends BaseService{
 
 		for(String url: urls){
 			try{
-				System.out.println(url);
 				mongoAdapters.add(new MongoAdapter(null, null, monsterParserService.parse(url)));
 			} catch(Exception e) {
 				e.printStackTrace();

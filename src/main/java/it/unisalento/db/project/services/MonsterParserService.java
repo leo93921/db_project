@@ -19,8 +19,6 @@ public class MonsterParserService {
 
             String jobId = id[id.length - 1];
 
-            int job =Integer.parseInt(jobId);
-
             // Create the URL
             String apiUrl = "https://offerte-di-lavoro.monster.it/v2/job/pure-json-view?jobid=" + jobId;
             RestTemplate restTemplate = new RestTemplate();

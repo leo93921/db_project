@@ -39,8 +39,8 @@ public class BaseService{
 		try{
 			for(MongoAdapter job : Objects.requireNonNull(mongoAdapterList)){
 
-				if(job.getCompany() !=  null || job.getJob() != null ||
-						job.getLocation() != null || job.getPlatform() != null){
+				if(job.getCompany() !=  null && job.getJob() != null &&
+						job.getLocation() != null && job.getPlatform() != null){
 
 					Platform platform = platformRepository.findByName(job.getPlatform().getName());
 					if(platform == null) platform = platformRepository.save(job.getPlatform());

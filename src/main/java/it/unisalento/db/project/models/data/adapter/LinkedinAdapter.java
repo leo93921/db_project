@@ -57,7 +57,7 @@ class LinkedinAdapter extends Adapter{
 
 	@Override
 	public Platform getPlatform(){
-		return new Platform("Linkedin", "https://www.linkedin.com/jobs/view/--?trk=jobs_jserp_job_listing_text");
+		return new Platform("Linkedin", "https://www.linkedin.com/jobs/view/");
 	}
 
 	private Date convertDate(String date){

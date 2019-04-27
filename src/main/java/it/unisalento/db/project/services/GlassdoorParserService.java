@@ -27,7 +27,7 @@ public class GlassdoorParserService {
 			return response.getBody();
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new GlassdoorJobDetail();
+			return null;
 		}
 	}
 
