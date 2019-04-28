@@ -3,7 +3,9 @@ package it.unisalento.db.project.services;
 import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.domain.Job;
 import it.unisalento.db.project.models.dto.CompanyDto;
+import it.unisalento.db.project.models.dto.GlassdoorJobDetail;
 import it.unisalento.db.project.models.dto.JobDto;
+import it.unisalento.db.project.models.dto.MonsterJobDetails;
 import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -25,6 +25,9 @@ public class JobService {
     @Autowired
     private JobRepository repository;
 
+    @Autowired private MonsterParserService monsterParserService;
+    @Autowired private GlassdoorParserService glassdoorParserService;
+    @Autowired private LinkedinParserService linkedinParserService;
 
     public Page<JobDto> getJobs(Integer page) {
         Page<Job> jobPage = repository.findAll(PageRequest.of(page, PAGE_SIZE));
@@ -70,4 +73,70 @@ public class JobService {
     public long countJobs(){
         return this.repository.count();
     }
+
+
+    public void checkJobs(){
+        List<Job> jobs = repository.findAll();
+        for(Job job: jobs){
+            System.out.println(job.getPlatform().getName());
+
+            if(job.getHiringDate() != null){
+                switch(job.getPlatform().getName()){
+                    case "Monster":
+                        try{
+                            MonsterJobDetails monsterJob = monsterParserService.parse(job.getLink());
+                            System.out.println("monster: " + monsterJob);
+                            if(monsterJob == null){
+                                job.setHiringDate(new Date());
+                                repository.save(job);
+                            }else{
+                                job.setUpdated(new Date());
+                                repository.save(job);
+                            }
+
+                        }catch(Exception e){
+                            System.err.println("errore");
+                        }
+                        break;
+
+                    case "Linkedin":
+                        try{
+                            Map<String, String> linkedinJob =
+                                    linkedinParserService.parse(job.getPlatform().getSearchBaseUrl() + job.getLink());
+
+                            System.out.println("linkedin: " + linkedinJob.isEmpty());
+
+                            if(! linkedinJob.isEmpty()){
+                                job.setUpdated(new Date());
+                                repository.save(job);
+                            }
+                        }catch(Exception e){
+                            System.err.println("errore");
+                            job.setHiringDate(new Date());
+                            repository.save(job);
+                            break;
+                        }
+                        break;
+
+                    case "Glassdoor":
+                        try{
+                            GlassdoorJobDetail glassdoorJob = glassdoorParserService.parse(job.getLink());
+                            System.out.println("glassdoor: " + glassdoorJob);
+                            if(glassdoorJob == null){
+                                job.setHiringDate(new Date());
+                                repository.save(job);
+                            }else{
+                                job.setUpdated(new Date());
+                                repository.save(job);
+                            }
+                        }catch(Exception e){
+                            System.err.println("errore");
+                        }
+                        break;
+
+                }
+            }
+        }
+    }
+
 }
