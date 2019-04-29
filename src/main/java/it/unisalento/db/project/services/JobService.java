@@ -6,6 +6,7 @@ import it.unisalento.db.project.models.dto.CompanyDto;
 import it.unisalento.db.project.models.dto.GlassdoorJobDetail;
 import it.unisalento.db.project.models.dto.JobDto;
 import it.unisalento.db.project.models.dto.MonsterJobDetails;
+import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
 import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class JobService {
 
     @Autowired
     private JobRepository repository;
+    @Autowired private TrackingHistoryService trackingHistoryService;
 
     @Autowired private MonsterParserService monsterParserService;
     @Autowired private GlassdoorParserService glassdoorParserService;
@@ -56,6 +58,10 @@ public class JobService {
         return new PageImpl<>(dtos, daosByCompany.getPageable(), daosByCompany.getTotalElements());
     }
 
+    public List<TrackingHistoryItemDto> getJobHistory() {
+        return trackingHistoryService.getHistory("Job");
+    }
+
     private JobDto toDto(Job job) {
         JobDto dto = new JobDto();
         dto.setId(job.get_id().toString());
@@ -65,7 +71,9 @@ public class JobService {
         dto.setRequirements(job.getRequirements());
         dto.setResponsibilities(job.getResponsibilities());
         dto.setLink(job.getLink());
-        dto.setPlatform(job.getPlatform().getName());
+        if (job.getPlatform() != null) {
+            dto.setPlatform(job.getPlatform().getName());
+        }
         dto.setCompany(new CompanyDto(job.getCompany().get_id().toString(), job.getCompany().getName(), job.getCompany().getFirstFind()));
         return dto;
     }

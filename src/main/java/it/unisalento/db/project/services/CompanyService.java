@@ -5,6 +5,7 @@ import it.unisalento.db.project.models.domain.Company;
 import it.unisalento.db.project.models.domain.Job;
 import it.unisalento.db.project.models.dto.CompanyDto;
 import it.unisalento.db.project.models.dto.CompanyWithJobsCountDto;
+import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
 import it.unisalento.db.project.repository.CompanyRepository;
 import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class CompanyService {
     @Autowired private CompanyRepository repository;
     @Autowired private MongoTemplate mongoTemplate;
     @Autowired private JobRepository jobRepository;
+    @Autowired private TrackingHistoryService trackingHistoryService;
 
     public Page<CompanyDto> findAll(Integer page) {
         Page<Company> daoPage = this.repository.findAll(PageRequest.of(page, PAGE_SIZE));
@@ -79,11 +82,36 @@ public class CompanyService {
         return repository.count();
     }
 
+    public List<TrackingHistoryItemDto> getCompaniesHistory() {
+        return this.trackingHistoryService.getHistory("Company");
+    }
+
     private CompanyDto toDto(Company dao) {
         CompanyDto dto = new CompanyDto();
         dto.setId(dao.get_id().toString());
         dto.setName(dao.getName());
         dto.setFirstVisit(dao.getFirstFind());
         return dto;
+    }
+
+    public List<CompanyWithJobsCountDto> getMostActiveCompanies(Integer limit) {
+        Aggregation agg = Aggregation.newAggregation(
+                Aggregation.group("company").count().as("jobCount"),
+                Aggregation.project("jobCount").and(
+                        ArrayOperators.ArrayElemAt.arrayOf(
+                                ObjectOperators.ObjectToArray.valueOfToArray("_id")
+                        ).elementAt(1)
+                ).as("companyId"),
+                Aggregation.lookup("Company", "companyId.v", "_id", "companyInfo"),
+                Aggregation.project("jobCount").and(
+                        ArrayOperators.ArrayElemAt.arrayOf("companyInfo").elementAt(0)
+                ).as("company"),
+                Aggregation.project("jobCount").and("company.name").as("name").and("company._id").as("_id"),
+                Aggregation.sort(Sort.Direction.DESC, "jobCount"),
+                Aggregation.limit(limit)
+        );
+
+        AggregationResults<CompanyWithJobsCountDto> results = mongoTemplate.aggregate(agg, Job.class, CompanyWithJobsCountDto.class);
+        return results.getMappedResults();
     }
 }
