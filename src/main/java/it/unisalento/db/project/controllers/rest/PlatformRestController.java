@@ -1,6 +1,7 @@
 package it.unisalento.db.project.controllers.rest;
 
 import it.unisalento.db.project.models.dto.HiredJobsDTO;
+import it.unisalento.db.project.models.dto.JobsFoundPerPlatformDTO;
 import it.unisalento.db.project.services.JobService;
 import it.unisalento.db.project.services.PlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class PlatformRestController{
 	@GetMapping("/checkJobs")
 	public void checkJobs(){
 		jobService.checkJobs();
+	}
+
+	@GetMapping("/findJobsPerPlatform")
+	public List<JobsFoundPerPlatformDTO> findJobsPerPlatform(){
+		return platformService.findJobsPerPlatform();
 	}
 
 }

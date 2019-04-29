@@ -2,6 +2,7 @@ package it.unisalento.db.project.services;
 
 import it.unisalento.db.project.models.domain.Job;
 import it.unisalento.db.project.models.dto.HiredJobsDTO;
+import it.unisalento.db.project.models.dto.JobsFoundPerPlatformDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
@@ -58,4 +59,26 @@ public class PlatformService{
 
 		return results.getMappedResults();
 	}
+
+
+	public List<JobsFoundPerPlatformDTO> findJobsPerPlatform(){
+		Aggregation aggregation = Aggregation.newAggregation(
+				Aggregation.group("platform").count().as("jobsFound"),
+				Aggregation.project("jobsFound").and(
+						ArrayOperators.ArrayElemAt.arrayOf(ObjectOperators.ObjectToArray.valueOfToArray("_id"))
+								.elementAt(1))
+						.as("platformId"),
+				Aggregation.lookup("Platform","platformId.v","_id","platName"),
+				Aggregation.project("jobsFound").and(
+						ArrayOperators.ArrayElemAt.arrayOf("platName.name").elementAt(0)).as("platformName")
+				.and("platformId.v").as("_id")
+		);
+
+		AggregationResults<JobsFoundPerPlatformDTO> results =
+				mongoTemplate.aggregate(aggregation, Job.class, JobsFoundPerPlatformDTO.class);
+
+
+		return results.getMappedResults();
+	}
+
 }
