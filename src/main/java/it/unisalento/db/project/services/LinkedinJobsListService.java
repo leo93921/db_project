@@ -73,8 +73,6 @@ public class LinkedinJobsListService extends BaseService{
 		List<MongoAdapter> mongoAdapters = new ArrayList<>();
 
 		try{
-			int i = 0;
-
 			for(Map<String, String> map : maps){
 
 				ObjectMapper mapper = new ObjectMapper();
@@ -91,12 +89,7 @@ public class LinkedinJobsListService extends BaseService{
 
 				mongoAdapters.add(new MongoAdapter(null, linkedinJobDetail, null));
 
-				System.out.println("counter: " + i);
-
-				i++;
-
 			}
-
 			return mongoAdapters;
 
 		} catch(Exception e){
