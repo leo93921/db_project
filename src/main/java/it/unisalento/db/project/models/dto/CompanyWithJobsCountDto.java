@@ -1,10 +1,13 @@
 package it.unisalento.db.project.models.dto;
 
+import java.util.Date;
+
 public class CompanyWithJobsCountDto {
 
     private String _id;
     private String name;
     private Integer jobCount;
+    private Date firstVisit;
 
     public String  get_id() {
         return _id;
@@ -30,4 +33,11 @@ public class CompanyWithJobsCountDto {
         this.jobCount = jobCount;
     }
 
+    public Date getFirstVisit(){
+        return firstVisit;
+    }
+
+    public void setFirstVisit(Date firstVisit){
+        this.firstVisit = firstVisit;
+    }
 }

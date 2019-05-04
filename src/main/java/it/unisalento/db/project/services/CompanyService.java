@@ -39,6 +39,7 @@ public class CompanyService {
 
         for (Company c : daoPage.getContent()) {
             CompanyDto dto = toDto(c);
+            System.out.println("first visit: " + dto.getFirstVisit() + ", name: " + dto.getName());
             dtos.add(dto);
         }
 
@@ -57,7 +58,8 @@ public class CompanyService {
                 Aggregation.project("jobCount").and(
                         ArrayOperators.ArrayElemAt.arrayOf("companyInfo").elementAt(0)
                 ).as("company"),
-                Aggregation.project("jobCount").and("company.name").as("name").and("company._id").as("_id"),
+                Aggregation.project("jobCount").and("company.name").as("name").and("company._id")
+                        .as("_id").and("company.firstFind").as("firstVisit"),
                 Aggregation.skip(new Long(page * PAGE_SIZE)),
                 Aggregation.limit(PAGE_SIZE)
         );
@@ -87,11 +89,7 @@ public class CompanyService {
     }
 
     private CompanyDto toDto(Company dao) {
-        CompanyDto dto = new CompanyDto();
-        dto.setId(dao.get_id().toString());
-        dto.setName(dao.getName());
-        dto.setFirstVisit(dao.getFirstFind());
-        return dto;
+        return new CompanyDto(dao.get_id().toString(), dao.getName(), dao.getFirstFind());
     }
 
     public List<CompanyWithJobsCountDto> getMostActiveCompanies(Integer limit) {
