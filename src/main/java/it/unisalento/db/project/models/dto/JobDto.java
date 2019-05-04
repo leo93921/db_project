@@ -14,6 +14,7 @@ public class JobDto {
     private String link;
     private String platform;
     private CompanyDto company;
+    private String description;
 
     public String getId() {
         return id;
@@ -85,5 +86,13 @@ public class JobDto {
 
     public void setCompany(CompanyDto company) {
         this.company = company;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 }

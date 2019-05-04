@@ -65,7 +65,8 @@ public class BaseService{
 					}else{
 						jobRepository.save(new Job(job.getJob().getPosted(), job.getJob().getName(), null,
 								location, platform, company, job.getJob().getResponsibilities(),
-								job.getJob().getRequirements(), job.getJob().getLink(), new Date(), new Date()));
+								job.getJob().getRequirements(), job.getJob().getLink(), new Date(), new Date(),
+								job.getJob().getDescription()));
 					}
 
 				}
@@ -102,6 +103,7 @@ public class BaseService{
 		if (job.getPlatform() != null) {
 			dto.setPlatform(job.getPlatform().getName());
 		}
+		dto.setDescription(job.getDescription());
 		dto.setCompany(new CompanyDto(job.getCompany().get_id().toString(), job.getCompany().getName(), job.getCompany().getFirstFind()));
 		return dto;
 	}

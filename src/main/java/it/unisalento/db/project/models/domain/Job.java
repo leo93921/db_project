@@ -30,15 +30,17 @@ public class Job{
 
 	private String name;
 	private String link;
+	private String description;
 
 	private Date firstFind;
 	private Date updated;
+
 
 	public Job() {}
 
 	public Job(Date posted, String name, @Nullable Date hiringDate, @Nullable Location location, @Nullable Platform platform,
 	           @Nullable Company company, List<String> responsibilities, List<String> requirements, String link,
-	           @Nullable Date firstFind, @Nullable Date updated) {
+	           @Nullable Date firstFind, @Nullable Date updated, @Nullable String description) {
 
 		this.posted = posted;
 		this.name = name;
@@ -51,7 +53,7 @@ public class Job{
 		this.link = link;
 		this.firstFind = firstFind;
 		this.updated = updated;
-
+		this.description = description;
 	}
 
 	public ObjectId get_id(){
@@ -148,5 +150,13 @@ public class Job{
 
 	public void setName(String name){
 		this.name = name;
+	}
+
+	public String getDescription(){
+		return description;
+	}
+
+	public void setDescription(String description){
+		this.description = description;
 	}
 }

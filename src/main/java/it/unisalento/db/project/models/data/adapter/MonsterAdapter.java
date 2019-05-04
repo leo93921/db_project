@@ -39,7 +39,7 @@ public class MonsterAdapter extends Adapter{
 			String link = monsterJobDetails.getJobId();
 
 			return new Job(posted, monsterJobDetails.getJobCategory(), null, getLocation(), getPlatform(), getCompany(),
-					responsibilities, requirements, link, null, null);
+					responsibilities, requirements, link, null, null, monsterJobDetails.getJobDescription());
 		} catch(Exception e) {
 			return null;
 		}

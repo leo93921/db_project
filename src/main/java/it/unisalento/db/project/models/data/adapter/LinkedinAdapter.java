@@ -39,7 +39,7 @@ class LinkedinAdapter extends Adapter{
 			Date posted = convertDate(linkedinJobDetail.getPosted());
 			String link = linkedinJobDetail.getLink() + "";
 			return new Job(posted, linkedinJobDetail.getName(), null, getLocation(), getPlatform(), getCompany(),
-					responsibilities, requirements, link, null,null);
+					responsibilities, requirements, link, null, null, linkedinJobDetail.getDescription());
 		} catch(Exception e) {
 			//e.printStackTrace();
 			return null;
