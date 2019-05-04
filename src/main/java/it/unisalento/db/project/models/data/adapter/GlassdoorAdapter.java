@@ -36,7 +36,7 @@ class GlassdoorAdapter extends Adapter{
 			Date posted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(glassdoorJobDetail.getJob().getDiscoverDate());
 			String link = glassdoorJobDetail.getJob().getListingId() + "";
 			return new Job(posted, glassdoorJobDetail.getHeader().getJobTitle(), null, getLocation(), getPlatform(), getCompany(),
-					responsibilities, requirements, link, null, null);
+					responsibilities, requirements, link, null, null, glassdoorJobDetail.getJob().getDescription());
 		} catch(Exception e) {
 			return null;
 		}
