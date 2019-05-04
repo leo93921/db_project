@@ -2,7 +2,6 @@ package it.unisalento.db.project.services;
 
 import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.domain.Job;
-import it.unisalento.db.project.models.dto.CompanyDto;
 import it.unisalento.db.project.models.dto.GlassdoorJobDetail;
 import it.unisalento.db.project.models.dto.JobDto;
 import it.unisalento.db.project.models.dto.MonsterJobDetails;
@@ -11,15 +10,17 @@ import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Service
-public class JobService {
+public class JobService extends BaseService{
 
     private final Integer PAGE_SIZE = 10;
 
@@ -48,35 +49,11 @@ public class JobService {
         return createPageOfDto(daosByCompany);
     }
 
-    private Page<JobDto> createPageOfDto(Page<Job> daosByCompany) {
-        List<JobDto> dtos = new ArrayList<>();
-        for (Job j : daosByCompany.getContent()) {
-            JobDto dto = toDto(j);
-            dtos.add(dto);
-        }
-
-        return new PageImpl<>(dtos, daosByCompany.getPageable(), daosByCompany.getTotalElements());
-    }
 
     public List<TrackingHistoryItemDto> getJobHistory() {
         return trackingHistoryService.getHistory("Job");
     }
 
-    private JobDto toDto(Job job) {
-        JobDto dto = new JobDto();
-        dto.setId(job.get_id().toString());
-        dto.setName(job.getName());
-        dto.setFirstVisit(job.getFirstFind());
-        dto.setLastVisit(job.getUpdated());
-        dto.setRequirements(job.getRequirements());
-        dto.setResponsibilities(job.getResponsibilities());
-        dto.setLink(job.getLink());
-        if (job.getPlatform() != null) {
-            dto.setPlatform(job.getPlatform().getName());
-        }
-        dto.setCompany(new CompanyDto(job.getCompany().get_id().toString(), job.getCompany().getName(), job.getCompany().getFirstFind()));
-        return dto;
-    }
 
     public long countJobs(){
         return this.repository.count();

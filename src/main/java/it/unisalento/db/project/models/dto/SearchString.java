@@ -1,13 +1,22 @@
 package it.unisalento.db.project.models.dto;
 
 public class SearchString{
-	String[] params;
+	private String[] requirements;
+	private String jobName;
 
-	public String[] getParams(){
-		return params;
+	public String[] getRequirements(){
+		return requirements;
 	}
 
-	public void setParams(String[] params){
-		this.params = params;
+	public void setRequirements(String[] requirements){
+		this.requirements = requirements;
+	}
+
+	public String getJobName(){
+		return jobName;
+	}
+
+	public void setJobName(String jobName){
+		this.jobName = jobName;
 	}
 }

@@ -18,8 +18,8 @@ public class SearchRestController{
 
 	@PostMapping(value = "/requirements", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Page<JobDto> findByRequirements(@RequestBody SearchString params){
-		System.out.println(params.getParams()[0]);
-		return searchService.findAllByRequirements(params.getParams(), 0);
+		System.out.println(params.getRequirements()[0]);
+		return searchService.findAllByRequirements(params, 0);
 
 	}
 
