@@ -2,6 +2,7 @@ package it.unisalento.db.project.controllers.rest;
 
 import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.dto.JobDto;
+import it.unisalento.db.project.models.dto.JobSearchQuery;
 import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
 import it.unisalento.db.project.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class JobsRestController {
     @GetMapping("/history")
     public List<TrackingHistoryItemDto> getHistory() {
         return jobService.getJobHistory();
+    }
+
+    @PostMapping("/search")
+    public Page<JobDto> performSearch(@RequestBody JobSearchQuery params, @Param("page") Integer page){
+        return jobService.performSearch(params, page);
     }
 }

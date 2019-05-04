@@ -2,10 +2,7 @@ package it.unisalento.db.project.services;
 
 import it.unisalento.db.project.exceptions.JobNotFoundException;
 import it.unisalento.db.project.models.domain.Job;
-import it.unisalento.db.project.models.dto.GlassdoorJobDetail;
-import it.unisalento.db.project.models.dto.JobDto;
-import it.unisalento.db.project.models.dto.MonsterJobDetails;
-import it.unisalento.db.project.models.dto.TrackingHistoryItemDto;
+import it.unisalento.db.project.models.dto.*;
 import it.unisalento.db.project.repository.JobRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +56,26 @@ public class JobService extends BaseService{
         return this.repository.count();
     }
 
+    public Page<JobDto> performSearch(JobSearchQuery params, Integer page){
+
+        if(params.getRequirements() != null &&
+                params.getRequirements().length > 0 &&
+                params.getJobName() != null &&
+                !params.getJobName().isEmpty()) {
+            return createPageOfDto(repository.findAllByRequirementAndName(params.getRequirements(),
+                    params.getJobName(), PageRequest.of(page, PAGE_SIZE)));
+        }else{
+            if(params.getJobName() != null){
+                return createPageOfDto(repository.findAllByJobName(params.getJobName(), PageRequest.of(page, PAGE_SIZE)));
+            }else if(params.getRequirements() != null){
+                return createPageOfDto(repository.findAllByRequirements(params.getRequirements(),
+                        PageRequest.of(page, PAGE_SIZE)));
+            }
+            else{
+                return null;
+            }
+        }
+    }
 
     public void checkJobs(){
         List<Job> jobs = repository.findAll();

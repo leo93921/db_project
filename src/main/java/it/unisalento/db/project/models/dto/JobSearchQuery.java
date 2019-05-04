@@ -1,6 +1,6 @@
 package it.unisalento.db.project.models.dto;
 
-public class SearchString{
+public class JobSearchQuery {
 	private String[] requirements;
 	private String jobName;
 
