@@ -33,7 +33,6 @@ public class LinkedinJobsListService extends BaseService{
 	public boolean saveJobs(String url){
 		try{
 			List<MongoAdapter> list = parseItems(jobsList(url));
-			System.out.println("list size: " + list.size() + "\n");
 			return super.saveJobs(list);
 		} catch(Exception e) {
 			return false;
